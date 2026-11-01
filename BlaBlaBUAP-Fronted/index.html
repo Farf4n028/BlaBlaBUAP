@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BlaBlaBUAP: comparte tu viaje hacia CU2 con otros estudiantes.">
+  <title>BlaBlaBUAP · Comunidad CU2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><div class="topbar-inner">
+    <a class="brand" href="index.html" aria-label="BlaBlaBUAP CU2, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 44 44" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="40" height="40" rx="13" fill="var(--accent)"/>
+          <path d="M11 15.5c0-2.2 1.8-4 4-4h14c2.2 0 4 1.8 4 4v8c0 2.2-1.8 4-4 4h-7.5l-5.5 4v-4H15c-2.2 0-4-1.8-4-4v-8Z" fill="none" stroke="var(--brand-mark-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 20h.1M22 20h.1M27 20h.1" stroke="var(--brand-mark-ink)" stroke-width="2.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">BlaBlaBUAP</span><span class="brand-campus">CU<span>2</span></span></a>
+    <nav class="top-nav"><a class="nav-link active" href="#feed">Comunidad</a><a class="nav-link" href="#how-it-works">Nuestra idea</a></nav>
+    <div class="top-actions">
+      <label class="search-box top-search"><span class="search-icon" aria-hidden="true"><svg viewBox="0 0 20 20" focusable="false" xmlns="http://www.w3.org/2000/svg"><circle cx="8.8" cy="8.8" r="5.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m13.2 13.2 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><input id="search-input" type="search" placeholder="¿Buscando viajes?" aria-label="Buscar viajes" autocomplete="off"></label>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Activar modo oscuro" title="Activar modo oscuro"><span class="theme-toggle-icon" aria-hidden="true">☾</span></button>
+      <div id="logged-out-actions"><button class="text-btn" id="login-button" type="button">Entrar</button><button class="primary-btn small" id="register-button" type="button">Crear perfil</button></div>
+      <div id="logged-in-actions" class="hidden profile-menu">
+        <button class="profile-trigger" id="profile-menu-toggle" type="button" aria-expanded="false" aria-controls="user-dropdown">
+          <span class="avatar small-avatar" id="profile-avatar">U</span><span id="profile-name">Usuario</span><span class="menu-chevron" aria-hidden="true"><svg viewBox="0 0 12 12" focusable="false" xmlns="http://www.w3.org/2000/svg"><path d="m2.5 4.5 3.5 3 3.5-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="user-dropdown hidden" id="user-dropdown" role="menu" aria-label="Menú de usuario">
+          <div class="dropdown-user"><span class="avatar dropdown-avatar" id="dropdown-avatar">U</span><div class="dropdown-user-copy"><strong id="dropdown-profile-name">Usuario</strong><span id="dropdown-profile-email">correo@ejemplo.com</span></div></div>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" type="button" role="menuitem" data-menu-item="Perfil"><span>◉</span>Perfil</button>
+          <button class="dropdown-item" type="button" role="menuitem" data-menu-item="Chats"><span>▤</span>Chats</button>
+          <button class="dropdown-item" type="button" role="menuitem" data-menu-item="Configuración"><span>⚙</span>Configuración</button>
+          <button class="dropdown-item" type="button" role="menuitem" data-menu-item="Historial de publicaciones"><span>◷</span>Historial de publicaciones</button>
+          <button class="dropdown-item" type="button" role="menuitem" data-menu-item="Saldo"><span>$</span>Saldo</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item logout-item" id="logout-button" type="button" role="menuitem"><span>↪</span>Salir</button>
+        </div>
+      </div>
+    </div>
+  </div></header>
+  <div class="page-layout">
+    <aside class="left-sidebar">
+      <div class="sidebar-intro"><span class="eyebrow">HECHO PARA COMPARTIR EL CAMINO</span><h2>Nos vemos<br><i>en el camino.</i></h2><p>Una comunidad de estudiantes que van hacia el mismo lugar.</p></div>
+      <div class="side-section"><span class="side-label">ENCUENTRA TU RUTA</span>
+        <button class="filter-btn active" data-filter="all"><span>✳</span> Todos los viajes</button><button class="filter-btn" data-filter="cholula"><span>⌖</span> Desde Cholula</button><button class="filter-btn" data-filter="periferico"><span>↗</span> Por Periférico</button><button class="filter-btn" data-filter="angelopolis"><span>⌖</span> Angelópolis</button>
+      </div>
+      <div class="sidebar-note"><span class="leaf-mark">✳</span><strong>El camino se comparte.</strong><p>Pequeñas conexiones que hacen más sencillo llegar a CU2.</p></div>
+      <div class="sidebar-bottom"><a href="#feed">↑ Volver al muro</a><button id="reset-demo" class="reset-btn">Restablecer demo</button></div>
+    </aside>
+    <main class="main-content" id="feed">
+      <section class="hero-panel"><div class="hero-copy"><span class="hero-kicker"><span class="live-dot"></span> COMUNIDAD CU2</span><h1>El viaje empieza<br><em>cuando conectamos.</em></h1><p>Comparte tu salida, encuentra rutas parecidas y llega a CU2 con más compañía.</p><button id="hero-publish" class="primary-btn">＋ Compartir mi viaje</button></div><div class="hero-art" aria-hidden="true"><div class="art-circle circle-back"></div><div class="art-circle circle-front"></div><div class="art-road"></div><div class="art-stamp">VAMOS<br><b>JUNTOS</b></div><div class="art-leaf">✳</div></div></section>
+      <div class="feed-heading"><div><span class="eyebrow">LA COMUNIDAD SE MUEVE</span><h2>Rutas que van a CU2</h2><p id="post-count" class="muted-line">3 viajes publicados</p></div></div>
+      <div id="posts-container" class="posts-container" aria-live="polite"></div>
+    </main>
+    <aside class="right-sidebar">
+      <section class="publish-card" id="publish-card"><div class="publish-icon">✳</div><span class="eyebrow">TU RUTA TAMBIÉN CUENTA</span><h3>¿Vas para<br>CU2?</h3><p>Alguien más puede salir por tu zona. Comparte tu viaje.</p><button id="rail-publish" class="dark-btn">Publicar mi ruta <span>→</span></button></section>
+      <section class="how-card" id="how-it-works"><span class="eyebrow">TRES PASOS, UN DESTINO</span><div class="how-step"><b>01</b><div><strong>Comparte tu salida</strong><p>Cuéntanos desde dónde partes.</p></div></div><div class="how-step"><b>02</b><div><strong>Explora la comunidad</strong><p>Encuentra viajes por tu zona.</p></div></div><div class="how-step"><b>03</b><div><strong>Conecta</strong><p>Dale like a los viajes que te gusten.</p></div></div></section>
+      <div class="safety-note"><span>✳</span><p><strong>Estamos comenzando.</strong> Este prototipo sirve para revisar la experiencia antes de conectar funciones reales.</p></div>
+    </aside>
+  </div>
+  <footer class="page-footer"><span>© 2026 BlaBlaBUAP · Comunidad universitaria</span><span>Un mismo destino nos conecta.</span></footer>
+  
+  <dialog id="auth-dialog" class="modal">
+    <form id="auth-form" method="dialog" class="modal-card auth-form">
+      <button class="modal-close" type="button" data-close-dialog aria-label="Cerrar">×</button>
+      <span class="eyebrow" id="auth-kicker">BIENVENIDO A LA COMUNIDAD</span>
+      <h2 id="auth-title">Hagamos camino.</h2>
+      <p class="modal-lead" id="auth-lead">Agrega tu nombre y correo para entrar a la comunidad.</p>
+      <label>Tu nombre<input id="auth-name" name="name" type="text" placeholder="Ej. Alex García" autocomplete="name" required maxlength="60"></label>
+      <label>Correo electrónico<input id="auth-email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required maxlength="100"></label>
+
+      <section id="credential-verification" class="credential-verification" hidden aria-labelledby="credential-title">
+        <div class="verification-heading">
+          <div><span class="eyebrow">UN PERFIL UNIVERSITARIO</span><h3 id="credential-title">Verificación de credenciales</h3></div>
+          <span class="verification-count">2 documentos</span>
+        </div>
+        <p class="verification-help">Arrastra tus fotos o selecciónalas. Asegúrate de que los datos se vean claros y sin reflejos.</p>
+
+        <div class="credential-grid">
+          <section class="credential-card" data-credential-card="ine" aria-label="Credencial 1 INE">
+            <div class="credential-card-heading"><span class="credential-number">01</span><div><h4>Credencial 1 (INE)</h4><p>Identificación oficial</p></div></div>
+            
+            <div class="drop-zone" id="ine-drop-zone">
+              <div class="credential-preview" id="ine-preview">
+                <div class="preview-placeholder">
+                  <span aria-hidden="true">▧</span>
+                  <strong>Arrastra o haz clic</strong>
+                  <small>Tu foto aparecerá aquí</small>
+                </div>
+              </div>
+            </div>
+
+            <p class="selected-file" id="ine-file-name">Ninguna imagen seleccionada</p>
+            <div class="credential-actions">
+              <button class="upload-action" type="button" data-camera="ine"><span aria-hidden="true">⌾</span>Abrir cámara</button>
+              <button class="upload-action" type="button" data-gallery="ine"><span aria-hidden="true">▧</span>Subir foto</button>
+            </div>
+            <button class="change-image" type="button" data-change-image="ine" hidden>Cambiar imagen</button>
+            <input class="file-input" id="ine-camera" type="file" accept="image/*" capture="environment" tabindex="-1" aria-label="Tomar foto de la INE">
+            <input class="file-input" id="ine-gallery" type="file" accept="image/*" tabindex="-1" aria-label="Subir foto de la INE">
+          </section>
+
+          <section class="credential-card" data-credential-card="student" aria-label="Credencial 2 de estudiante">
+            <div class="credential-card-heading"><span class="credential-number">02</span><div><h4>Credencial 2 (Estudiante)</h4><p>Identificación BUAP</p></div></div>
+            
+            <div class="drop-zone" id="student-drop-zone">
+              <div class="credential-preview" id="student-preview">
+                <div class="preview-placeholder">
+                  <span aria-hidden="true">▧</span>
+                  <strong>Arrastra o haz clic</strong>
+                  <small>Tu foto aparecerá aquí</small>
+                </div>
+              </div>
+            </div>
+
+            <p class="selected-file" id="student-file-name">Ninguna imagen seleccionada</p>
+            <div class="credential-actions">
+              <button class="upload-action" type="button" data-camera="student"><span aria-hidden="true">⌾</span>Abrir cámara</button>
+              <button class="upload-action" type="button" data-gallery="student"><span aria-hidden="true">▧</span>Subir foto</button>
+            </div>
+            <button class="change-image" type="button" data-change-image="student" hidden>Cambiar imagen</button>
+            <input class="file-input" id="student-camera" type="file" accept="image/*" capture="environment" tabindex="-1" aria-label="Tomar foto de la credencial de estudiante">
+            <input class="file-input" id="student-gallery" type="file" accept="image/*" tabindex="-1" aria-label="Subir foto de la credencial de estudiante">
+          </section>
+        </div>
+        <p class="verification-status" id="verification-status" role="status" aria-live="polite">Aún faltan las dos fotografías.</p>
+        <button class="primary-btn full verification-submit" id="send-credentials" type="submit" disabled>Enviar credenciales y crear perfil →</button>
+        <p class="fine-print verification-privacy">Esta es una demo frontend: las fotos solo se previsualizan en tu navegador. Todavía no se envían, guardan ni validan automáticamente.</p>
+      </section>
+
+      <button class="primary-btn full" id="auth-submit" type="submit">Entrar a la demo →</button>
+      <p class="fine-print" id="auth-fine-print">Prototipo local: puedes usar datos ficticios para probar el perfil.</p>
+    </form>
+  </dialog>
+  
+  <dialog id="post-dialog" class="modal"><form id="post-form" class="modal-card post-form" method="dialog"><button class="modal-close" type="button" data-close-dialog aria-label="Cerrar">×</button><span class="eyebrow">CUÉNTALE A LA COMUNIDAD</span><h2>¿Desde dónde salimos?</h2><p class="modal-lead">Tu destino ya está definido: CU2 · BUAP.</p><label>¿Desde dónde sales?<input name="origin" type="text" placeholder="Ej. San Pedro Cholula" required maxlength="80"></label><label>¿Por dónde pasas? <span class="optional">Opcional</span><input name="route" type="text" placeholder="Ej. Tomo Periférico y entro por Valsequillo" maxlength="130"></label><div class="form-row"><label>Fecha<input name="date" type="date" required></label><label>Hora<input name="time" type="time" required></label></div><div class="form-row"><label>Aportación <span class="optional">Opcional</span><div class="input-prefix"><span>$</span><input name="contribution" type="number" min="0" max="9999" placeholder="25"></div></label><label>Lugares libres <span class="optional">Opcional</span><input name="seats" type="number" min="1" max="20" placeholder="2"></label></div><label>Un detalle más <span class="optional">Opcional</span><textarea name="note" rows="3" maxlength="240" placeholder="Punto de encuentro, indicaciones, etc."></textarea></label><button class="primary-btn full" type="submit">Compartir viaje →</button></form></dialog>
+  
+  <!-- NUEVO: Ventana emergente para errores de credenciales -->
+  <dialog id="error-dialog" class="modal error-modal">
+    <div class="modal-card">
+      <div style="font-size: 40px; text-align: center; margin-bottom: 10px;">⚠️</div>
+      <h2 style="text-align: center; font-size: 20px;">Credenciales incorrectas</h2>
+      <p style="text-align: center; font-size: 12px; color: var(--muted); margin-bottom: 20px;" id="error-message">El nombre no coincide con las credenciales.</p>
+      <button type="button" class="primary-btn full" onclick="document.getElementById('error-dialog').close()">Intentar de nuevo</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>

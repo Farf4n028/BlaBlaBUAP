@@ -1,0 +1,16 @@
+# Entornos virtuales
+venv/
+env/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Base de datos local (si la usas después)
+*.db
+*.sqlite3
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
