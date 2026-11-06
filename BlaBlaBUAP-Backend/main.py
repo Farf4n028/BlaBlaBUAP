@@ -28,7 +28,7 @@ app = FastAPI(title="BlaBlaBUAP API con IA - Optimizada")
 app.add_middleware(
     CORSMiddleware,
     # Reemplaza con la URL de tu frontend desplegado (ej. Vercel o Netlify)
-    allow_origins=["https://tu-frontend.vercel.app"], 
+    allow_origins=["https://blablabuapf.vercel.app/"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
