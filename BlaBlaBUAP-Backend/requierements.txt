@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+python-multipart
+opencv-python-headless
+paddlepaddle
+paddleocr
+unicodedata2
+gunicorn
