@@ -381,7 +381,7 @@
       formData.append('student', credentialFiles.student.file);
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/verificar-credenciales', {
+        const response = await fetch('https://blablabuap.onrender.com/api/verificar-credenciales', {
           method: 'POST',
           body: formData
         });
