@@ -27,7 +27,7 @@ app = FastAPI(title="BlaBlaBUAP API con IA - Optimizada")
 # En main.py, modifica el middleware CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex='https://.*\.vercel\.app', # Permite cualquier subdominio de Vercel
+    allow_origins=["*"], # Dejamos el asterisco por ahora para que no falle
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
