@@ -1,4 +1,3 @@
-import os
 import time
 import asyncio
 import unicodedata
@@ -8,26 +7,15 @@ import cv2
 import numpy as np
 from paddleocr import PaddleOCR
 import logging
-import os
-import uvicorn
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
-# --- CONFIGURACIÓN DE VARIABLES DE ENTORNO ---
-os.environ["OMP_NUM_THREADS"] = "4" 
-os.environ["MKL_NUM_THREADS"] = "4"
-os.environ["OPENBLAS_NUM_THREADS"] = "4"
-os.environ["FLAGS_use_mkldnn"] = "1"
 
 logging.getLogger("ppocr").setLevel(logging.ERROR)
 
-app = FastAPI(title="BlaBlaBUAP API con IA - Optimizada")
+app = FastAPI(title="BlaBlaBUAP API")
 
-# En main.py, modifica el middleware CORS
+# Dejamos el CORS abierto para evitar problemas mientras probamos
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Dejamos el asterisco por ahora para que no falle
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,7 +28,7 @@ ocr_engine = PaddleOCR(
     use_doc_orientation_classify=False,
     use_doc_unwarping=False,
     use_textline_orientation=False,
-    text_det_limit_side_len=960,
+    text_det_limit_side_len=600, # Reducido a 600 para gastar menos RAM
     text_det_limit_type="max",
 )
 print("¡Modelo cargado y listo!")
@@ -50,9 +38,10 @@ def procesar_imagen_y_leer_texto(image_bytes: bytes) -> str:
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     if img is None: return ""
 
+    # Reducir imagen a máximo 600px para ahorrar RAM extrema
     alto, ancho = img.shape[:2]
-    if max(alto, ancho) > 960:
-        escala = 960 / max(alto, ancho)
+    if max(alto, ancho) > 600:
+        escala = 600 / max(alto, ancho)
         img = cv2.resize(img, (int(ancho * escala), int(alto * escala)), interpolation=cv2.INTER_AREA)
 
     img_procesada = cv2.GaussianBlur(img, (5, 5), 0)
@@ -70,36 +59,21 @@ def procesar_imagen_y_leer_texto(image_bytes: bytes) -> str:
     return "\n".join(texto_extraido)
 
 def normalizar_texto(texto: str) -> str:
-    """Quita acentos, pasa a minúsculas y quita caracteres raros."""
     if not texto: return ""
     texto = texto.lower()
-    # Quitar acentos
     texto = ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn')
     return texto
 
 def validar_nombres(nombre_usuario: str, texto_ine: str, texto_student: str) -> bool:
-    """
-    Compara las palabras del nombre del usuario con el texto de las credenciales.
-    Devuelve True si TODAS las palabras del nombre están en ambas credenciales.
-    """
     nombre_limpio = normalizar_texto(nombre_usuario)
     ine_limpio = normalizar_texto(texto_ine)
     student_limpio = normalizar_texto(texto_student)
-
-    # Dividir el nombre en palabras (ej. "Juan Carlos Perez" -> ["juan", "carlos", "perez"])
     palabras = nombre_limpio.split()
-    
-    if not palabras:
-        return False
-
-    # Verificar si cada palabra del nombre está en ambos textos
+    if not palabras: return False
     for palabra in palabras:
-        # Ignorar palabras muy cortas como "de", "la", "y"
-        if len(palabra) < 3:
-            continue
+        if len(palabra) < 3: continue
         if palabra not in ine_limpio or palabra not in student_limpio:
-            return False # Si falta una palabra, falla la validación
-
+            return False
     return True
 
 @app.post("/api/verificar-credenciales")
@@ -120,19 +94,13 @@ async def verificar_credenciales(
     print("Procesando Credencial de Estudiante con IA...")
     texto_student = await asyncio.to_thread(procesar_imagen_y_leer_texto, student_bytes)
 
-    print("--- Texto encontrado en INE ---")
-    print(texto_ine)
-
-    # 🔥 VALIDACIÓN DE NOMBRES 🔥
-    print("Validando que el nombre coincida con las credenciales...")
     es_valido = validar_nombres(nombre, texto_ine, texto_student)
 
     if not es_valido:
-        print(f"❌ ERROR: El nombre '{nombre}' no coincide con las credenciales.")
-        # Lanzamos un error 400 para que el frontend lo detecte
+        print(f"❌ ERROR: El nombre '{nombre}' no coincide.")
         raise HTTPException(status_code=400, detail="El nombre no coincide con las credenciales. Intenta de nuevo.")
 
-    print("✅ Validación exitosa: El nombre coincide.")
+    print("✅ Validación exitosa.")
 
     return {
         "status": "success",
