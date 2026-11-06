@@ -28,8 +28,9 @@ ocr_engine = PaddleOCR(
     use_doc_orientation_classify=False,
     use_doc_unwarping=False,
     use_textline_orientation=False,
-    text_det_limit_side_len=600, # Reducido a 600 para gastar menos RAM
+    text_det_limit_side_len=600,
     text_det_limit_type="max",
+    enable_mkldnn=False  # 👈 Línea clave para evitar el bug de oneDNN
 )
 print("¡Modelo cargado y listo!")
 
